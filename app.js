@@ -1,6 +1,7 @@
 /**
  * Currency Converter App
- * Utilizza l'API gratuita Frankfurter (basata su tassi BCE)
+ * Utilizza l'API gratuita fawazahmed0/currency-api
+ * Supporta 200+ valute incluse VND, RUB, AED
  */
 
 // ═══════════════════════════════════════════════════════════════
@@ -18,7 +19,10 @@ const CURRENCIES = [
     { code: 'AUD', name: 'Dollaro AUS', flag: '🇦🇺' }
 ];
 
-const API_BASE = 'https://api.frankfurter.app';
+// API endpoints (con fallback)
+const API_PRIMARY = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies';
+const API_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies';
+
 const CACHE_KEY = 'currency_rates_cache';
 const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 ore in millisecondi
 
@@ -55,28 +59,47 @@ const elements = {
 // ═══════════════════════════════════════════════════════════════
 
 async function fetchRates(baseCurrency) {
-    const targetCurrencies = CURRENCIES
-        .map(c => c.code)
-        .filter(c => c !== baseCurrency)
-        .join(',');
+    const base = baseCurrency.toLowerCase();
     
-    const url = `${API_BASE}/latest?from=${baseCurrency}&to=${targetCurrencies}`;
+    // Prova prima l'API primaria, poi il fallback
+    const urls = [
+        `${API_PRIMARY}/${base}.json`,
+        `${API_FALLBACK}/${base}.json`
+    ];
     
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('API Error');
-        
-        const data = await response.json();
-        return {
-            base: data.base,
-            rates: data.rates,
-            date: data.date,
-            timestamp: Date.now()
-        };
-    } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+    let lastError;
+    
+    for (const url of urls) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const data = await response.json();
+            
+            // L'API restituisce i tassi nel formato { "eur": { "usd": 1.05, "gbp": 0.85, ... } }
+            const ratesData = data[base];
+            
+            if (!ratesData) throw new Error('Invalid response format');
+            
+            // Converti i codici in maiuscolo per coerenza
+            const rates = {};
+            for (const [code, rate] of Object.entries(ratesData)) {
+                rates[code.toUpperCase()] = rate;
+            }
+            
+            return {
+                base: baseCurrency,
+                rates: rates,
+                date: data.date || new Date().toISOString().split('T')[0],
+                timestamp: Date.now()
+            };
+        } catch (error) {
+            console.warn(`API ${url} failed:`, error.message);
+            lastError = error;
+        }
     }
+    
+    throw lastError || new Error('All API endpoints failed');
 }
 
 function getCachedRates() {
@@ -140,6 +163,8 @@ async function loadRates(forceRefresh = false) {
             base: state.baseCurrency
         });
         
+        elements.lastUpdate.classList.remove('error');
+        
     } catch (error) {
         // Fallback su cache scaduta se disponibile
         try {
@@ -170,7 +195,10 @@ async function refreshRatesInBackground() {
         setCachedRates({ ...data, base: state.baseCurrency });
         updateLastUpdateDisplay();
         renderConversions();
-    } catch {}
+        elements.lastUpdate.classList.remove('error');
+    } catch (e) {
+        console.warn('Background refresh failed:', e);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -257,6 +285,7 @@ function formatCurrency(value, currencyCode) {
 }
 
 function formatRate(rate) {
+    if (rate >= 1000) return rate.toFixed(0);
     if (rate >= 100) return rate.toFixed(2);
     if (rate >= 1) return rate.toFixed(4);
     return rate.toFixed(6);
@@ -285,7 +314,6 @@ function updateLastUpdateDisplay() {
     }
     
     elements.lastUpdate.textContent = `Tassi aggiornati ${timeText}`;
-    elements.lastUpdate.classList.remove('error');
 }
 
 // ═══════════════════════════════════════════════════════════════

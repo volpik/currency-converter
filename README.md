@@ -1,8 +1,6 @@
 # 💱 Currency Converter
 
-Webapp elegante per la conversione di valute in tempo reale. Tassi di cambio BCE aggiornati automaticamente.
-
-![Currency Converter Preview](preview.png)
+Webapp elegante per la conversione di valute in tempo reale. Tassi di cambio aggiornati automaticamente.
 
 ## Valute Supportate
 
@@ -20,12 +18,12 @@ Webapp elegante per la conversione di valute in tempo reale. Tassi di cambio BCE
 ## Funzionalità
 
 - ✅ Conversione istantanea in 8 valute
-- ✅ Tassi BCE via [Frankfurter API](https://www.frankfurter.app/) (gratuita)
+- ✅ Tassi via [fawazahmed0/currency-api](https://github.com/fawazahmed0/exchange-api) (gratuita, 200+ valute)
 - ✅ Aggiornamento automatico ogni 4 ore
 - ✅ Cache locale per funzionamento offline
 - ✅ PWA installabile su iOS/macOS/Android
 - ✅ Design responsive e moderno
-- ✅ Nessuna registrazione richiesta
+- ✅ Nessuna API key richiesta
 
 ---
 
@@ -52,6 +50,7 @@ Webapp elegante per la conversione di valute in tempo reale. Tassi di cambio BCE
    - `sw.js`
    - `icon-192.png`
    - `icon-512.png`
+   - `.nojekyll`
 3. Scrivi un commit message (es. "Initial commit")
 4. Clicca **Commit changes**
 
@@ -131,11 +130,12 @@ const CURRENCIES = [
     // Aggiungi qui altre valute...
     { code: 'GBP', name: 'Sterlina', flag: '🇬🇧' },
     { code: 'JPY', name: 'Yen', flag: '🇯🇵' },
+    { code: 'CNY', name: 'Yuan Cinese', flag: '🇨🇳' },
 ];
 ```
 
-Valute supportate dall'API Frankfurter:
-AUD, BGN, BRL, CAD, CHF, CNY, CZK, DKK, EUR, GBP, HKD, HUF, IDR, ILS, INR, ISK, JPY, KRW, MXN, MYR, NOK, NZD, PHP, PLN, RON, SEK, SGD, THB, TRY, USD, ZAR
+L'API supporta **200+ valute** tra cui:
+AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHF, CLP, CNY, COP, CRC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, GBP, GEL, GHS, GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR, MWK, MXN, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SYP, SZL, THB, TJS, TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, UYU, UZS, VES, VND, VUV, WST, XAF, XCD, XOF, XPF, YER, ZAR, ZMW
 
 ### Cambiare valuta di default
 
@@ -161,10 +161,11 @@ const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 ora
 
 ## 📝 Note Tecniche
 
-- **API**: [Frankfurter](https://www.frankfurter.app/) - gratuita, basata su tassi BCE
-- **Limiti**: Nessun limite di richieste per uso personale
-- **Aggiornamento tassi BCE**: Ogni giorno lavorativo alle ~16:00 CET
-- **Valute non supportate**: RUB potrebbe non essere disponibile (sanzioni BCE)
+- **API**: [fawazahmed0/currency-api](https://github.com/fawazahmed0/exchange-api) - gratuita, 200+ valute
+- **CDN**: jsDelivr + Cloudflare Pages (fallback automatico)
+- **Limiti**: Nessun limite, nessuna API key
+- **Aggiornamento tassi**: Ogni giorno
+- **Offline**: Funziona con Service Worker e cache locale
 
 ### Struttura file
 
@@ -177,6 +178,7 @@ currency-converter/
 ├── sw.js           # Service Worker (offline)
 ├── icon-192.png    # Icona app piccola
 ├── icon-512.png    # Icona app grande
+├── .nojekyll       # Disabilita Jekyll
 └── README.md       # Questo file
 ```
 
@@ -192,11 +194,14 @@ currency-converter/
 **Tassi non si aggiornano:**
 - Clicca il pulsante refresh (↻) in basso
 - Verifica connessione internet
-- L'API BCE non aggiorna nei weekend/festivi
 
 **App non installabile su iOS:**
 - Usa Safari (Chrome iOS non supporta PWA)
 - Assicurati di usare HTTPS (GitHub Pages lo fa automaticamente)
+
+**Vedo valori "—" invece dei numeri:**
+- L'API potrebbe essere temporaneamente non raggiungibile
+- Prova a ricaricare la pagina o attendere qualche minuto
 
 ---
 
