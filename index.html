@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Currency Converter</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header con input principale -->
+        <header class="input-section">
+            <div class="logo">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">Currency</span>
+            </div>
+            
+            <div class="main-input-wrapper">
+                <input 
+                    type="text" 
+                    id="amount-input" 
+                    class="amount-input" 
+                    value="1000"
+                    inputmode="decimal"
+                    autocomplete="off"
+                >
+                <div class="currency-selector" id="base-currency-selector">
+                    <button class="currency-btn" id="base-currency-btn">
+                        <span class="currency-flag" id="base-flag">🇪🇺</span>
+                        <span class="currency-code" id="base-code">EUR</span>
+                        <span class="dropdown-arrow">▾</span>
+                    </button>
+                    <div class="currency-dropdown" id="base-dropdown">
+                        <!-- Popolato via JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="last-update" id="last-update">
+                Aggiornamento tassi...
+            </div>
+        </header>
+
+        <!-- Griglia conversioni -->
+        <main class="conversions-grid" id="conversions-grid">
+            <!-- Popolato via JS -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <button class="refresh-btn" id="refresh-btn" title="Aggiorna tassi">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                    <path d="M21 3v5h-5"/>
+                </svg>
+            </button>
+            <span class="footer-text">Tassi BCE via Frankfurter API</span>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
