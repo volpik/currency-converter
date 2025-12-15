@@ -1,29 +1,34 @@
 /* ═══════════════════════════════════════════════════════════════
-   CURRENCY CONVERTER - Elegant Financial Design
+   CURRENCY CONVERTER - Urban Modern Relax / Pastello
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-    /* Colors - Dark luxury theme */
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #12121a;
-    --bg-card: #16161f;
-    --bg-card-hover: #1c1c28;
+    /* Colors - Soft Pastel Palette */
+    --bg-primary: #f5f0eb;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #faf8f5;
     
-    --text-primary: #ffffff;
-    --text-secondary: #8b8b9e;
-    --text-muted: #5a5a6e;
+    --text-primary: #2d3436;
+    --text-secondary: #636e72;
+    --text-muted: #a0a8ab;
     
-    --accent-gold: #d4a853;
-    --accent-gold-dim: rgba(212, 168, 83, 0.15);
-    --accent-green: #4ade80;
-    --accent-red: #f87171;
+    --accent-main: #e17055;
+    --accent-soft: #fab1a0;
+    --accent-mint: #a8e6cf;
+    --accent-lavender: #c7b8ea;
+    --accent-peach: #ffeaa7;
+    --accent-sky: #81ecec;
     
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-color-light: rgba(255, 255, 255, 0.12);
+    --border-color: rgba(45, 52, 54, 0.08);
+    --border-color-light: rgba(45, 52, 54, 0.12);
+    
+    --shadow-soft: 0 4px 20px rgba(45, 52, 54, 0.06);
+    --shadow-hover: 0 8px 30px rgba(45, 52, 54, 0.1);
     
     /* Typography */
-    --font-display: 'Instrument Serif', Georgia, serif;
-    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -31,6 +36,11 @@
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
     --spacing-xl: 2rem;
+    
+    /* Border Radius */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
     
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -60,16 +70,33 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Subtle background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, var(--accent-mint) 0%, transparent 25%),
+        radial-gradient(circle at 80% 80%, var(--accent-lavender) 0%, transparent 25%),
+        radial-gradient(circle at 60% 30%, var(--accent-peach) 0%, transparent 20%);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+}
+
 /* App Container */
 .app-container {
-    max-width: 600px;
+    max-width: 560px;
     margin: 0 auto;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     padding: var(--spacing-lg);
-    padding-top: env(safe-area-inset-top, var(--spacing-lg));
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--spacing-xl));
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--spacing-lg));
 }
 
@@ -79,7 +106,6 @@ body {
 
 .input-section {
     padding-bottom: var(--spacing-xl);
-    border-bottom: 1px solid var(--border-color);
     margin-bottom: var(--spacing-lg);
 }
 
@@ -91,22 +117,19 @@ body {
 }
 
 .logo-icon {
-    font-size: 1.5rem;
-    color: var(--accent-gold);
-    animation: pulse-glow 3s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    font-size: 1.75rem;
+    background: linear-gradient(135deg, var(--accent-main), var(--accent-lavender));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .logo-text {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--text-secondary);
-    letter-spacing: 0.02em;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 /* Main Input */
@@ -115,14 +138,16 @@ body {
     align-items: center;
     gap: var(--spacing-md);
     background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-md) var(--spacing-lg);
-    transition: border-color var(--transition-smooth);
+    box-shadow: var(--shadow-soft);
+    transition: all var(--transition-smooth);
 }
 
 .main-input-wrapper:focus-within {
-    border-color: var(--accent-gold);
+    border-color: var(--accent-main);
+    box-shadow: var(--shadow-hover), 0 0 0 4px rgba(225, 112, 85, 0.1);
 }
 
 .amount-input {
@@ -131,8 +156,8 @@ body {
     border: none;
     outline: none;
     font-family: var(--font-display);
-    font-size: 3rem;
-    font-weight: 400;
+    font-size: 2.75rem;
+    font-weight: 500;
     color: var(--text-primary);
     min-width: 0;
     letter-spacing: -0.02em;
@@ -151,17 +176,18 @@ body {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent-soft), var(--accent-peach));
+    border: none;
+    border-radius: var(--radius-sm);
     padding: var(--spacing-sm) var(--spacing-md);
     cursor: pointer;
     transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(225, 112, 85, 0.2);
 }
 
 .currency-btn:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--border-color-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 112, 85, 0.3);
 }
 
 .currency-flag {
@@ -173,12 +199,12 @@ body {
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
 }
 
 .dropdown-arrow {
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     transition: transform var(--transition-fast);
 }
 
@@ -191,17 +217,17 @@ body {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
     padding: var(--spacing-xs);
-    min-width: 160px;
+    min-width: 180px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
     transition: all var(--transition-fast);
     z-index: 100;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-hover);
 }
 
 .currency-selector.open .currency-dropdown {
@@ -215,17 +241,17 @@ body {
     align-items: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background var(--transition-fast);
 }
 
 .currency-option:hover {
-    background: var(--bg-card-hover);
+    background: var(--bg-primary);
 }
 
 .currency-option.selected {
-    background: var(--accent-gold-dim);
+    background: linear-gradient(135deg, rgba(168, 230, 207, 0.3), rgba(199, 184, 234, 0.3));
 }
 
 .currency-option .currency-flag {
@@ -245,24 +271,25 @@ body {
 /* Last Update */
 .last-update {
     margin-top: var(--spacing-md);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
+    font-weight: 500;
 }
 
 .last-update::before {
     content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--accent-green);
+    width: 8px;
+    height: 8px;
+    background: var(--accent-mint);
     border-radius: 50%;
     animation: pulse 2s ease-in-out infinite;
 }
 
 .last-update.error::before {
-    background: var(--accent-red);
+    background: var(--accent-main);
 }
 
 @keyframes pulse {
@@ -284,13 +311,14 @@ body {
 
 .conversion-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
     transition: all var(--transition-smooth);
     cursor: default;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-soft);
 }
 
 .conversion-card::before {
@@ -299,16 +327,16 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--card-accent, var(--accent-gold)) 0%, transparent 100%);
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-mint), var(--accent-lavender), var(--accent-peach));
     opacity: 0;
     transition: opacity var(--transition-smooth);
 }
 
 .conversion-card:hover {
-    background: var(--bg-card-hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
     border-color: var(--border-color-light);
-    transform: translateY(-2px);
 }
 
 .conversion-card:hover::before {
@@ -320,6 +348,20 @@ body {
     pointer-events: none;
 }
 
+/* Alternate card colors */
+.conversion-card:nth-child(1) { --card-accent: var(--accent-mint); }
+.conversion-card:nth-child(2) { --card-accent: var(--accent-lavender); }
+.conversion-card:nth-child(3) { --card-accent: var(--accent-peach); }
+.conversion-card:nth-child(4) { --card-accent: var(--accent-sky); }
+.conversion-card:nth-child(5) { --card-accent: var(--accent-soft); }
+.conversion-card:nth-child(6) { --card-accent: var(--accent-mint); }
+.conversion-card:nth-child(7) { --card-accent: var(--accent-lavender); }
+.conversion-card:nth-child(8) { --card-accent: var(--accent-peach); }
+
+.conversion-card:hover::before {
+    background: var(--card-accent);
+}
+
 .card-header {
     display: flex;
     align-items: center;
@@ -328,8 +370,9 @@ body {
 }
 
 .card-flag {
-    font-size: 1.75rem;
+    font-size: 2rem;
     line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .card-info {
@@ -341,17 +384,19 @@ body {
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
 }
 
 .card-name {
     font-size: 0.75rem;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 .card-value {
     font-family: var(--font-display);
-    font-size: 1.75rem;
+    font-size: 1.65rem;
+    font-weight: 600;
     color: var(--text-primary);
     letter-spacing: -0.01em;
     word-break: break-all;
@@ -362,6 +407,7 @@ body {
     margin-top: var(--spacing-xs);
     font-size: 0.7rem;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 /* Loading state */
@@ -388,7 +434,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--spacing-md);
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-xl);
     margin-top: auto;
 }
 
@@ -396,20 +442,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
     color: var(--text-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
+    box-shadow: var(--shadow-soft);
 }
 
 .refresh-btn:hover {
-    background: var(--bg-card-hover);
-    color: var(--accent-gold);
-    border-color: var(--accent-gold);
+    background: linear-gradient(135deg, var(--accent-mint), var(--accent-sky));
+    color: var(--text-primary);
+    border-color: transparent;
+    transform: translateY(-2px);
 }
 
 .refresh-btn:active svg {
@@ -422,8 +470,9 @@ body {
 }
 
 .footer-text {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -448,11 +497,15 @@ body {
     }
     
     .card-value {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
     }
     
     .card-flag {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
+    }
+    
+    .logo-text {
+        font-size: 1.25rem;
     }
 }
 
@@ -477,6 +530,6 @@ body {
 /* iOS specific fixes */
 @supports (-webkit-touch-callout: none) {
     .amount-input {
-        font-size: 2.5rem; /* Prevent zoom on iOS */
+        font-size: 2.5rem;
     }
 }

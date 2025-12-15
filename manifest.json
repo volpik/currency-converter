@@ -1,11 +1,11 @@
 {
   "name": "Currency Converter",
   "short_name": "Currency",
-  "description": "Convertitore di valute con tassi BCE aggiornati",
+  "description": "Convertitore di valute con tassi aggiornati",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#0a0a0f",
+  "background_color": "#f5f0eb",
+  "theme_color": "#f5f0eb",
   "orientation": "portrait-primary",
   "icons": [
     {
