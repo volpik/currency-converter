@@ -2,7 +2,7 @@
   "name": "Currency Converter",
   "short_name": "Currency",
   "description": "Convertitore di valute con tassi aggiornati",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f5f0eb",
   "theme_color": "#f5f0eb",
